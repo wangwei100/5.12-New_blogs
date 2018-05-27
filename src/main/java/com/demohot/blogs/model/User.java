@@ -1,4 +1,6 @@
-package com.demohot.blogs.po;
+package com.demohot.blogs.model;
+
+import com.alibaba.fastjson.JSON;
 
 public class User {
 	private Integer id;
@@ -38,4 +40,8 @@ public class User {
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this);
+	}
 }

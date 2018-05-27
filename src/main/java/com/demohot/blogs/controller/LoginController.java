@@ -1,37 +1,34 @@
 package com.demohot.blogs.controller;
 
-import java.io.IOException;
+import javax.servlet.http.HttpSession;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import com.demohot.blogs.mapper.UserMapper;
+import com.demohot.blogs.model.User;
 
-import com.demohot.blogs.dao.UserDao;
-import com.demohot.blogs.po.User;
+@Controller
+public class LoginController {
 
-public class LoginController extends HttpServlet {
+	@Autowired
+	private UserMapper userMapper;
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String username = req.getParameter("username");
-		String password = req.getParameter("password");
-		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-		UserDao userDao = context.getBean(UserDao.class, "userDaoImpl");
-		boolean success = userDao.login(username, password);
-		if (success) {
-			resp.getOutputStream().write("login success!!!".getBytes());
+	@RequestMapping("/login")
+	public String login() {
+		return "login.jsp";
+	}
+
+	@RequestMapping("/do_login")
+	public String doLogin(String username, String password, HttpSession session) {
+		User user = userMapper.getByUsernameAndPassword(username, password);
+		if (null != user) {
+			session.setAttribute("myUser", user);
+			return "redirect:/user/my";
 		} else {
-			resp.getOutputStream().write("login fail !!!".getBytes());
+			return "redirect:/login";
 		}
 	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-	}
-
 }
+   

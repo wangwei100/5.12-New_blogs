@@ -5,17 +5,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript" src=js/jquery-3.3.1.min.js></script>
 </head>
 <body>
-	<span>用户名</span>
-	<input id="txt_username" type="text">
-	<br />
-	<span>密码</span>
-	<input id="txt_password" type="text">
-	<br />
-	<input id="btn_login" type="button" value="登录" />
-
+	<form action="/do_login" method="post">
+		<label>username:<input name="username" type="text" /></label><br /> 
+		<label>password:<input name="password" type="text" /></label><br /> 
+		<input type="submit" value="login" />
+	</form>
 </body>
-<script type="text/javascript" src=js/login.js></script>
 </html>
